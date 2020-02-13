@@ -200,8 +200,8 @@ function closeNav() {
     <h1 class="text-uppercase" style="color: #337ab7;font-weight: bold;text-align: center;">account verification</h1>
   </div>
   <div class="col-sm-12">
-    <form class="form-horizontal" method = 'post' action='/verification'>
-    {% csrf_token %} 
+    <form class="form-horizontal" action="account_verification" method='POST'>
+    {% csrf_token %}
       <div class="form-group">
       <label class="control-label col-sm-2">Full Name</label>
       <div class="col-sm-8">
@@ -221,17 +221,18 @@ function closeNav() {
       </div>
       </div>
       <div class="form-group">
-      <label class="control-label col-sm-2">Address 1</label>
+      <label class="control-label col-sm-2">Address1 </label>
       <div class="col-sm-8">
       <input type="text" class="form-control" name="address1"  style="border: 1px solid #337ab7">
       </div>
       </div>
       <div class="form-group">
-      <label class="control-label col-sm-2">Address 2</label>
+      <label class="control-label col-sm-2">Address2 </label>
       <div class="col-sm-8">
       <input type="text" class="form-control" name="address2"  style="border: 1px solid #337ab7">
       </div>
       </div>
+      
       <div class="form-group">
       <label class="control-label col-sm-2">Zip code</label>
       <div class="col-sm-8">
@@ -259,11 +260,11 @@ function closeNav() {
       <div class="form-group">
       <label class="control-label col-sm-2">Date of birth</label>
       <div class="col-sm-8">
-      <input type="text" class="form-control" name="dob"  style="border: 1px solid #337ab7">
+      <input type="text" class="form-control" name="date_of_birth"  style="border: 1px solid #337ab7">
       </div>
       </div>
       <div class="form-group">
-      <label class="control-label col-sm-2">Passport id</label>
+      <label class="control-label col-sm-2">Passport Id</label>
       <div class="col-sm-8">
       <input type="text" class="form-control" name="passid"  style="border: 1px solid #337ab7">
       </div>
@@ -275,17 +276,12 @@ function closeNav() {
       </div>
       </div>
       <div class="form-group">
-      <label class="control-label col-sm-2">Expiring date</label>
+      <label class="control-label col-sm-2">Expiring Date</label>
       <div class="col-sm-8">
       <input type="text" class="form-control" name="expiringdate"  style="border: 1px solid #337ab7">
       </div>
-      </div>   
-      <button type="submit" class="btn btn-secondary  btn-block" style="    margin-top: 10%;margin-bottom: 10%;margin-left: 30%;
-    background: #000;">SAVE
-    </button>                     
-    </form>
-  </div>
-  <div class="col-sm-3">
+      </div>
+      <div class="col-sm-3">
     <a href="#"><img src="{% static 'images/Account Verification 1.png' %}"></a>
   </div>
   <div class="col-sm-3">
@@ -297,9 +293,15 @@ function closeNav() {
   <div class="col-sm-3">
     <a href="#"><img src="{% static 'images/Account Verification 4.png' %}"></a>
   </div>
-  <div class="col-md-6" style="margin-bottom: 10%;margin-left: 10%;">
-    
+      <div class="col-md-6" style="margin-bottom: 10%;margin-left: 10%;">
+        <input type="submit"  value="SAVE" class="btn btn-primary  btn-block" style="    margin-top: 10%;margin-bottom: 10%;margin-left: 30%;
+        background: #000;">
+        </input>
+      </div>
+      
+    </form>
   </div>
+  
 </div>
 <!-- Footer -->
 
