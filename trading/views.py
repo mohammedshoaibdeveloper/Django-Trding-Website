@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse, redirect
-from trading .models import User_Signup
+from trading .models import User_Signup , Verification
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.sessions.models import Session  
 import requests
@@ -65,17 +65,25 @@ def signup(request):
          
 def login(request):
       if request.method == 'POST':
+            userid=0
             username = request.POST['loginusername']
             pass1 = request.POST['loginpass']
+           
 
             data = User_Signup.objects.filter(name=username,password=pass1)
+           
+
             if data:
                 request.session['is_loged'] = True
+                y=User_Signup.objects.raw(f'select * FROM trading_User_Signup where name="{username}"')
+                for x in y:
+                    userid=x.name
+                request.session['id'] = userid
                 tickerURL = "https://api.coinmarketcap.com/v1/ticker/"
                 response = requests.get(tickerURL)
                 data = response.json()
                 if request.session.has_key('is_loged'):
-                    return render(request,'home.html',{'data':data,'name':username})
+                    return render(request,'home.html',{'data':data,'name':username,'uid':request.session['id']})
                 
             else:
                 return redirect('/')    
@@ -120,7 +128,29 @@ def verification(request):
 def security(request):
     return render(request,'security.html')
 def account_verification(request):
-    return render(request,'account_verification.html')
+    if request.method == 'POST':
+        name= request.POST['username']
+        fullname = request.POST['fullname']
+        middlename = request.POST['middlename']
+        lastname= request.POST['lastname']
+        zipcode = request.POST['zipcode']
+        city = request.POST['city']
+        region = request.POST['region']
+        country = request.POST['country']
+        dob = request.POST['dob']
+        passid = request.POST['passid']
+        date_of_issue = request.POST['date_of_issue']
+        expiringdatee = request.POST['expiringdate']
+        address1= request.POST['address1']
+        address2= request.POST['address2']
+        user_data =Verification(uname=name,fullname=fullname,middlename=middlename,lastname=lastname,address1=address1,address2=address2,zipcode=zipcode,city=city,region=region,country=country,dob=dob,passid=passid,date_of_issue=date_of_issue,expiringdate=expiringdatee)
+        user_data.save()
+        #return render(request,'home.html')
+    
+
+
+
+    return render(request,'account_verification.html',{'uid':request.session['id']})
 def logout(request):
     del request.session['is_loged']
     return redirect('/')
