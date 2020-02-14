@@ -128,7 +128,7 @@ function closeNav() {
 <nav class="main-menu">
   <ul>
     <li>
-      <a href="/home">
+      <a href="/homee">
         <img src="{% static 'images/a.png' %}" style="margin-left: 15px; margin-right: 20px;">
         <span class="nav-text">
         Home
@@ -202,7 +202,7 @@ function closeNav() {
   </div>
   <div class="col-sm-12">
   
-    <form class="form-horizontal" action="account_verification" method='POST'>
+    <form class="form-horizontal" action="account_verification" method='POST' enctype="multipart/form-data">
     {% csrf_token %}
       <div class="form-group">
       <input type="hidden" name="username" value="{{uid}}">
@@ -284,17 +284,23 @@ function closeNav() {
       <input type="text" class="form-control" name="expiringdate"  style="border: 1px solid #337ab7">
       </div>
       </div>
+   
       <div class="col-sm-3">
-    <a href="#"><img src="{% static 'images/Account Verification 1.png' %}"></a>
+    <a type="file" href="#"><img src="{% static 'images/Account Verification 1.png' %}"></a>
+    <input type="file" name="passportimg">
+    
   </div>
   <div class="col-sm-3">
     <a href="#"><img src="{% static 'images/Account Verification 2.png' %}"></a>
+    <input type="file" name="selfieimg">
   </div>
   <div class="col-sm-3">
     <a href="#"><img src="{% static 'images/Account Verification 3.png' %}"></a>
+    <input type="file" name="idbackimg">
   </div>
   <div class="col-sm-3">
     <a href="#"><img src="{% static 'images/Account Verification 4.png' %}"></a>
+    <input type="file" name="documentwithaddimg">
   </div>
       <div class="col-md-6" style="margin-bottom: 10%;margin-left: 10%;">
         <input type="submit"  value="SAVE" class="btn btn-primary  btn-block" style="    margin-top: 10%;margin-bottom: 10%;margin-left: 30%;

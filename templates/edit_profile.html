@@ -132,7 +132,7 @@ function closeNav() {
 <nav class="main-menu">
   <ul>
     <li>
-      <a href="/home">
+      <a href="/homee">
         <img src="{% static 'images/a.png' %}" style="margin-left: 15px; margin-right: 20px;">
         <span class="nav-text">
         Home
@@ -203,40 +203,48 @@ function closeNav() {
   <div class="row">
     <h1 class="text-uppercase" style="color: #337ab7;font-weight: bold;">edit profile</h1>
   </div>
-  <div class="col-sm-6" style="border: 2px solid grey;margin-bottom: 10%;">
-      <img class="img-responsive" src="{% static 'images/user.png' %}" style="margin-left: 35%;width: 30%;">
-      <span style="background: #000;color: #fff;border-radius: 10px;padding: 5px;margin-left: 35%;">Choose Your Profile Picture
+  <div class="col-sm-6" style="border: 2px solid grey;margin-bottom: 10%; padding:40px">
+    {% for x in data %}
+      <img class="img-responsive" src="media/{{x.profileimg}}" style="margin-left: 35%;width: 30%;">
+      <span style="background: #000;color: #fff;border-radius: 10px;padding: 5px;margin-left: 35%;">Choose Your Profile Picture <br>
+     
       </span><br><br>
-    <form action="#">
-      <div class="form-group">
-      <label>Full Name</label>
-      <input type="text" class="form-control" name="fullname">
-      </div>
+        
+    <form class="form-horizontal" action="edit_profile" method='POST' enctype="multipart/form-data">
+    {% csrf_token %}
+   
+     
             <div class="form-group">
       <label>User Name</label>
-      <input type="text" class="form-control" name="username">
+      <input type="text" class="form-control" name="username" value=" {{x.name}}" readonly>
       </div>
             <div class="form-group">
       <label>Change Password</label>
-      <input type="text" class="form-control" name="changepassword">
+      <input type="password" class="form-control" name="changepassword" value="{{x.password}}">
       </div>
             <div class="form-group">
       <label>Confirm Password</label>
-      <input type="text" class="form-control" name="Confirmpassword">
+      <input type="password" class="form-control" name="Confirmpassword"  value="{{x.password}}">
       </div>
             <div class="form-group">
       <label>Email</label>
-      <input type="text" class="form-control" name="email">
+      <input type="text" class="form-control" name="email"  value="{{x.email}}">
       </div>
             <div class="form-group">
       <label>Confirm Email</label>
-      <input type="text" class="form-control" name="confirmemail">
+      <input type="text" class="form-control" name="confirmemail"  value="{{x.email}}">
+      <label>Profile Image</lable>
+        <input type="file" name="image" class="bg-dark">
+
       </div>
-    </form>
+      
+      {% endfor %} 
+   
   </div>
   <div class="col-sm-6" style="margin-bottom: 10%;">
-    <button type="button" class="btn btn-primary  btn-block" style="    margin-top: 10%;margin-bottom: 10%;background: #000;">SAVE
+    <button type="submit" class="btn btn-primary  btn-block" style="    margin-top: 10%;margin-bottom: 10%;background: #000;">SAVE
     </button>
+     </form>
     <div class="col-sm-6"><i class="fa fa-envelope"></i> Email Notification Settings</div>
     <br>
     <p style="margin-top: 10%;">Notify On Login Account</p>

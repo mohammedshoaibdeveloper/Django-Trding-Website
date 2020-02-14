@@ -6,6 +6,7 @@ class User_Signup(models.Model):
     name = models.CharField(max_length=255)
     email = models.CharField(max_length=100)
     password = models.CharField(max_length=50)
+    profileimg = models.ImageField(upload_to='images/',default="images/user.png")  
    
    
 
@@ -26,7 +27,12 @@ class Verification(models.Model):
     dob = models.PositiveSmallIntegerField(default=0)
     passid = models.PositiveSmallIntegerField(default=0)
     date_of_issue = models.PositiveSmallIntegerField(default=0)
-    expiringdate = models.PositiveSmallIntegerField(default=0)    
+    expiringdate = models.PositiveSmallIntegerField(default=0)
+    passportimg = models.ImageField(upload_to='images/')     
+    selfieimg = models.ImageField(upload_to='images/')     
+    idbackimg = models.ImageField(upload_to='images/')     
+    documentwithaddimg = models.ImageField(upload_to='images/')     
+     
     
     def __str__(self):
         return self.uname

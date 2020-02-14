@@ -27,7 +27,7 @@ def index(request):
 
     # return render(request,'index.html')
 
-def home(request):
+def homee(request):
     tickerURL = "https://api.coinmarketcap.com/v1/ticker/"
 
         # get data from globalURL
@@ -66,6 +66,7 @@ def signup(request):
 def login(request):
       if request.method == 'POST':
             userid=0
+            upadateId=0
             username = request.POST['loginusername']
             pass1 = request.POST['loginpass']
            
@@ -78,7 +79,9 @@ def login(request):
                 y=User_Signup.objects.raw(f'select * FROM trading_User_Signup where name="{username}"')
                 for x in y:
                     userid=x.name
+                    upadateId=x.sno
                 request.session['id'] = userid
+               
                 tickerURL = "https://api.coinmarketcap.com/v1/ticker/"
                 response = requests.get(tickerURL)
                 data = response.json()
@@ -122,7 +125,17 @@ def pooling(request):
 def trade_history(request):
     return render(request,'trade_history.html')
 def edit_profile(request):
-    return render(request,'edit_profile.html')
+     datalist=request.session['id'] 
+   
+     if request.method=="POST":
+         update = User_Signup.objects.get(name=datalist)
+         update.email= request.POST['email']
+         update.password= request.POST['changepassword']
+         update.profileimg= request.FILES['image']
+         update.save()
+     edit=User_Signup.objects.raw(f'select * FROM trading_User_Signup where name="{datalist}"')
+        
+     return render(request,'edit_profile.html',{"data":edit})
 def verification(request):
     return render(request,'verification.html')
 def security(request):
@@ -143,7 +156,19 @@ def account_verification(request):
         expiringdatee = request.POST['expiringdate']
         address1= request.POST['address1']
         address2= request.POST['address2']
-        user_data =Verification(uname=name,fullname=fullname,middlename=middlename,lastname=lastname,address1=address1,address2=address2,zipcode=zipcode,city=city,region=region,country=country,dob=dob,passid=passid,date_of_issue=date_of_issue,expiringdate=expiringdatee)
+        passportimg= request.FILES['passportimg']
+        selfieimg= request.FILES['selfieimg']
+        idbackimg= request.FILES['idbackimg']
+        documentwithaddimg= request.FILES['documentwithaddimg']
+        
+        user_data =Verification(uname=name,fullname=fullname,middlename=middlename,lastname=lastname,address1=address1,
+        address2=address2,zipcode=zipcode,city=city,region=region,country=country,dob=dob,passid=passid,
+        date_of_issue=date_of_issue,expiringdate=expiringdatee,passportimg=passportimg,idbackimg=idbackimg,documentwithaddimg=documentwithaddimg)
+        checkuser_name = Verification.objects.filter(uname=name)
+        
+        if checkuser_name:
+               return HttpResponse('Username Already Exist')
+        
         user_data.save()
         #return render(request,'home.html')
     
@@ -153,6 +178,7 @@ def account_verification(request):
     return render(request,'account_verification.html',{'uid':request.session['id']})
 def logout(request):
     del request.session['is_loged']
+   
     return redirect('/')
 
 # def verification(request):
