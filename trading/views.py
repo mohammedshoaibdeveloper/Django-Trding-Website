@@ -136,6 +136,7 @@ def edit_profile(request):
      edit=User_Signup.objects.raw(f'select * FROM trading_User_Signup where name="{datalist}"')
         
      return render(request,'edit_profile.html',{"data":edit})
+
 def verification(request):
     return render(request,'verification.html')
 def security(request):
