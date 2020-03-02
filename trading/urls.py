@@ -18,6 +18,7 @@ urlpatterns = [
     path('logout',views.logout,name='logout'),
     path('account_verification',views.account_verification,name='account_verification'),
     path('verification',views.verification,name='verification'),
+    path('charge',views.charge,name="charge")
     
    
     

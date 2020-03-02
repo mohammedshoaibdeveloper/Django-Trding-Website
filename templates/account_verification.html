@@ -201,14 +201,139 @@ function closeNav() {
     <h1 class="text-uppercase" style="color: #337ab7;font-weight: bold;text-align: center;">account verification</h1>
   </div>
   <div class="col-sm-12">
+  <div class="alert alert-{{msg.tags}} text-center">
+  {% if messages%}
+  {% for msg in messages%}
+  <script>
+  alert('{{msg|safe}}')
   
+  </script>
+  {% endfor %}
+  {% endif %}
+  
+  </div>
+ {% if status is True%}
+      {% for x in data %}
     <form class="form-horizontal" action="account_verification" method='POST' enctype="multipart/form-data">
     {% csrf_token %}
       <div class="form-group">
       <input type="hidden" name="username" value="{{uid}}">
       <label class="control-label col-sm-2">Full Name</label>
+    
       <div class="col-sm-8">
-      <input type="text" class="form-control" name="fullname" style="border: 1px solid #337ab7">
+
+      <input type="text" class="form-control" name="fullname" value=" {{x.fullname}}" style="border: 1px solid #337ab7">
+      </div>
+      </div>
+      <div class="form-group">
+      <label class="control-label col-sm-2">Middle Name</label>
+      <div class="col-sm-8">
+      <input type="text" class="form-control" name="middlename" value=" {{x.middlename}}" style="border: 1px solid #337ab7">
+      </div>
+      </div>
+      <div class="form-group">
+      <label class="control-label col-sm-2">Last Name</label>
+      <div class="col-sm-8">
+      <input type="text" class="form-control" name="lastname" value=" {{x.lastname}}" style="border: 1px solid #337ab7">
+      </div>
+      </div>
+      <div class="form-group">
+      <label class="control-label col-sm-2">Address1 </label>
+      <div class="col-sm-8">
+      <input type="text" class="form-control" name="address1" value=" {{x.address1}}"  style="border: 1px solid #337ab7">
+      </div>
+      </div>
+      <div class="form-group">
+      <label class="control-label col-sm-2">Address2 </label>
+      <div class="col-sm-8">
+      <input type="text" class="form-control" name="address2"value=" {{x.address2}}"  style="border: 1px solid #337ab7">
+      </div>
+      </div>
+      
+      <div class="form-group">
+      <label class="control-label col-sm-2">Zip code</label>
+      <div class="col-sm-8">
+      <input type="text" class="form-control" name="zipcode" value=" {{x.zipcode}}"  style="border: 1px solid #337ab7">
+      </div>
+      </div>
+      <div class="form-group">
+      <label class="control-label col-sm-2">City</label>
+      <div class="col-sm-8">
+      <input type="text" class="form-control" name="city" value=" {{x.city}}"  style="border: 1px solid #337ab7">
+      </div>
+      </div>
+      <div class="form-group">
+      <label class="control-label col-sm-2">Region</label>
+      <div class="col-sm-8">
+      <input type="text" class="form-control" name="region" value="{{x.region}}" style="border: 1px solid #337ab7">
+      </div>
+      </div>
+      <div class="form-group">
+      <label class="control-label col-sm-2">Country</label>
+      <div class="col-sm-8">
+      <input type="text" class="form-control" name="country" value=" {{x.country}}"  style="border: 1px solid #337ab7">
+      </div>
+      </div>
+      <div class="form-group">
+      <label class="control-label col-sm-2">Date of birth</label>
+      <div class="col-sm-8">
+      <input type="text" class="form-control" name="dob" value=" {{x.dob}}"  style="border: 1px solid #337ab7">
+      </div>
+      </div>
+      <div class="form-group">
+      <label class="control-label col-sm-2">Passport Id</label>
+      <div class="col-sm-8">
+      <input type="text" class="form-control" name="passid" value=" {{x.passid}}"  style="border: 1px solid #337ab7">
+      </div>
+      </div>
+      <div class="form-group">
+      <label class="control-label col-sm-2">Date of issue</label>
+      <div class="col-sm-8">
+      <input type="text" class="form-control" name="date_of_issue" value=" {{x.date_of_issue}}"  style="border: 1px solid #337ab7">
+      </div>
+      </div>
+      <div class="form-group">
+      <label class="control-label col-sm-2">Expiring Date</label>
+      <div class="col-sm-8">
+      <input type="text" class="form-control" name="expiringdate" value=" {{x.expiringdate}}"  style="border: 1px solid #337ab7">
+      </div>
+      </div>
+   
+      <div class="col-sm-3">
+    <a type="file" href="#"><img src="{% static 'images/Account Verification 1.png' %}"></a>
+    <input type="file" name="passportimg" value=" {{x.passportimg}}">
+    
+  </div>
+  <div class="col-sm-3">
+    <a href="#"><img src="{% static 'images/Account Verification 2.png' %}"></a>
+    <input type="file" name="selfieimg" value=" {{x.selfieimg}}">
+  </div>
+  <div class="col-sm-3">
+    <a href="#"><img src="{% static 'images/Account Verification 3.png' %}"></a>
+    <input type="file" name="idbackimg" value=" {{x.idbackimg}}">
+  </div>
+  <div class="col-sm-3">
+    <a href="#"><img src="{% static 'images/Account Verification 4.png' %}"></a>
+    <input type="file" name="documentwithaddimg" value=" {{x.documentwithaddimg}}">
+  </div>
+      <div class="col-md-6" style="margin-bottom: 10%;margin-left: 10%;">
+        <input type="submit"  value="SAVE" class="btn btn-primary  btn-block" style="    margin-top: 10%;margin-bottom: 10%;margin-left: 30%;
+        background: #000;">
+        </input>
+      </div>
+      
+    </form>
+    {% endfor %}
+     {% else %}
+     <form class="form-horizontal" action="account_verification" method='POST' enctype="multipart/form-data">
+    {% csrf_token %}
+      <div class="form-group">
+      <input type="hidden" name="username" value="{{uid}}">
+      <label class="control-label col-sm-2">Full Name</label>
+    
+      <div class="col-sm-8">
+
+      <input type="text" class="form-control" name="fullname"  style="border: 1px solid #337ab7">
       </div>
       </div>
       <div class="form-group">
@@ -232,7 +357,7 @@ function closeNav() {
       <div class="form-group">
       <label class="control-label col-sm-2">Address2 </label>
       <div class="col-sm-8">
-      <input type="text" class="form-control" name="address2"  style="border: 1px solid #337ab7">
+      <input type="text" class="form-control" name="address2"   style="border: 1px solid #337ab7">
       </div>
       </div>
       
@@ -245,7 +370,7 @@ function closeNav() {
       <div class="form-group">
       <label class="control-label col-sm-2">City</label>
       <div class="col-sm-8">
-      <input type="text" class="form-control" name="city"  style="border: 1px solid #337ab7">
+      <input type="text" class="form-control" name="city"   style="border: 1px solid #337ab7">
       </div>
       </div>
       <div class="form-group">
@@ -257,31 +382,31 @@ function closeNav() {
       <div class="form-group">
       <label class="control-label col-sm-2">Country</label>
       <div class="col-sm-8">
-      <input type="text" class="form-control" name="country"  style="border: 1px solid #337ab7">
+      <input type="text" class="form-control" name="country"   style="border: 1px solid #337ab7">
       </div>
       </div>
       <div class="form-group">
       <label class="control-label col-sm-2">Date of birth</label>
       <div class="col-sm-8">
-      <input type="text" class="form-control" name="dob"  style="border: 1px solid #337ab7">
+      <input type="text" class="form-control" name="dob"   style="border: 1px solid #337ab7">
       </div>
       </div>
       <div class="form-group">
       <label class="control-label col-sm-2">Passport Id</label>
       <div class="col-sm-8">
-      <input type="text" class="form-control" name="passid"  style="border: 1px solid #337ab7">
+      <input type="text" class="form-control" name="passid"   style="border: 1px solid #337ab7">
       </div>
       </div>
       <div class="form-group">
       <label class="control-label col-sm-2">Date of issue</label>
       <div class="col-sm-8">
-      <input type="text" class="form-control" name="date_of_issue"  style="border: 1px solid #337ab7">
+      <input type="text" class="form-control" name="date_of_issue"   style="border: 1px solid #337ab7">
       </div>
       </div>
       <div class="form-group">
       <label class="control-label col-sm-2">Expiring Date</label>
       <div class="col-sm-8">
-      <input type="text" class="form-control" name="expiringdate"  style="border: 1px solid #337ab7">
+      <input type="text" class="form-control" name="expiringdate"   style="border: 1px solid #337ab7">
       </div>
       </div>
    
@@ -292,15 +417,15 @@ function closeNav() {
   </div>
   <div class="col-sm-3">
     <a href="#"><img src="{% static 'images/Account Verification 2.png' %}"></a>
-    <input type="file" name="selfieimg">
+    <input type="file" name="selfieimg" >
   </div>
   <div class="col-sm-3">
     <a href="#"><img src="{% static 'images/Account Verification 3.png' %}"></a>
-    <input type="file" name="idbackimg">
+    <input type="file" name="idbackimg" >
   </div>
   <div class="col-sm-3">
     <a href="#"><img src="{% static 'images/Account Verification 4.png' %}"></a>
-    <input type="file" name="documentwithaddimg">
+    <input type="file" name="documentwithaddimg" >
   </div>
       <div class="col-md-6" style="margin-bottom: 10%;margin-left: 10%;">
         <input type="submit"  value="SAVE" class="btn btn-primary  btn-block" style="    margin-top: 10%;margin-bottom: 10%;margin-left: 30%;
@@ -309,6 +434,8 @@ function closeNav() {
       </div>
       
     </form>
+    {% endif %}
+
   </div>
   
 </div>

@@ -105,6 +105,19 @@
 {% block content %}
 
 <body style="margin-top: -3%;">
+{% if messages %}
+
+{% for x in messages %}
+
+<script>
+ alert('{{x|safe}}')
+
+</script>
+
+{% endfor %}
+
+
+{% endif %}
 	<nav class="navbar navbar-inverse"  style="background: #000;">
   		<div class="container-fluid">
     	<div class="navbar-header" style="margin-bottom: -10%;">
@@ -488,59 +501,12 @@
 <div class="container-fluid" style="background-image: linear-gradient(to right, #336bbe , #fff);">
 	<div class="row" style="text-align: center;">
 		<h1 class="text-uppercase" style="color: #000;font-weight: bold;    margin-bottom: -5%;">Our Partners</h1>
-		<img src="images/our partner.png">
+		<img src="{% static 'images/our partner.png'%}">
 	</div>
 </div>
 <!-- end our partners -->
 <!-- Footer -->
-<footer class="container-fluid" style="background: #000;">
-	<div class="row">
-		<div class="col-sm-4">
-		<img src="{% static 'images/footer.png' %}" style="width:70%;margin-left:10%;">
-		</div>
-		<div class="col-sm-8" style="margin-top: 5%;">
-			<p style="border-bottom: 1px solid #fff; color: #fff;">Folder The Future of Tranding</p>
-		</div>
-		<!-- <hr style="color: #fff;"> -->
-      	<div class="col-sm-2">
-        <!-- Content -->
-        <p style="color: #fff;">legal</p>
-        <p style="color: #fff;text-decoration: underline;">Legal Information</p>
-        <p style="color: #fff;text-decoration: underline;">Privacy Policy</p>
-        <p style="color: #fff;text-decoration: underline;">Terms & Conditions</p>
-      	</div>
-      	<div class="col-sm-2">
-        <!-- Content -->
-        <p style="color: #fff;">Info</p>
-        <p style="color: #fff;text-decoration: underline;">Fees</p>
-        <p style="color: #fff;text-decoration: underline;">License</p>
-      	</div>
-      	<div class="col-sm-1">
-        <!-- Content -->
-        <p style="color: #fff;">Menu</p>
-        <p style="color: #fff;text-decoration: underline;">Trade Day </p>
-        <p style="color: #fff;text-decoration: underline;">support</p>
-      	</div>
-      	<div class="col-sm-1">
-        <!-- Content -->
-        <p style="color: #fff;">Social</p>
-        <ul>
-        	<li><i class="fa fa-facebook-f"></i></li>
-        	<li><i class="fa fa-twitter"></i></li>
-        	<li><i class="fa fa-instagram"></i></li>
-        	<li><i class="fa fa-telegram"></i></li>
-        </ul>
-      	</div>
-      	<div class="col-sm-1">
-        <!-- Content -->
-        <button class="btn-lg btn-primary">subscribe</button>
-      	</div>
-		<div class="col-sm-8" style="margin-top: 5%;">
-			<p style="color: #fff;">Trade Day  2019, All Rights Reserved.</p>
-		</div>      	
-	</div>
-</footer>
-<!-- End Footer -->
+
 {% endblock content %}
 
 

@@ -347,15 +347,20 @@ function closeNav() {
   <div class="col-md-4 col-sm-4" style="margin-bottom: 4%;border: 2px solid #ddd;border-radius:10px;font-weight: bold;padding-bottom: 15px;padding-left: 10px;padding-right: 10px;">
     <h3 class="text-center" style="background-image: linear-gradient(#014083 1%, #000 90%, #000 90%);color:#fff;border-radius:3px;margin-top: 0%;margin-bottom: 0px;margin-right: -10px;margin-left: -10px;">Buy</h3>
       <p style="color:#000;text-align: left;">BUY BHV <span style="float:right;">0 BTC</span></p>
+      <form action="charge" method="post">
+        {% csrf_token %} 
       <div class="col-sm-12">
+        
         <div class="col-sm-2">
+
           <p>Price</p>
         </div>
         <div class="col-sm-2">
             <button class="btn btn-dark btn-sm" id="minus-btn" style="padding-bottom: 20px;background:#fff;"><i class="fa fa-minus"></i></button>
         </div>
         <div class="col-sm-4">
-        <input type="number" id="qty_input" class="form-control form-control-sm" value="1" min="1">
+        
+        <input type="number" id="amount" name="amount" class="form-control form-control-sm" value="100" min="1">
         </div>
         <div class="col-sm-2">
             <button class="btn btn-dark btn-sm" id="plus-btn" style="padding-bottom: 20px;margin-left: -30px;background:#fff;"><i class="fa fa-plus"></i></button>
@@ -383,8 +388,26 @@ function closeNav() {
       </div>
     <div class="slidecontainer">
     <input type="range" min="1" max="100" value="50" class="slider" id="myRange"><p>Totals:<span id="demo"></span></p>
+    
+<script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+data-key="pk_test_rWQkL5ttyOdLEWF6x9PY4L0800Fd7UhQ0S"
+data-description="A Django Charge"
+data-amount=""
+data-locale="auto">
+</script>
+<script>
+$(document).ready(function(){
+
+    $("#amount").keyup(function(){
+        $(".stripe-button").attr("data-amount", $(this).val()*100);
+        
+    });
+   
+})
+</script>
     <button class="btn-lg btn-primary">Buy</button> 
     <button class="btn-lg btn-primary">Clear</button>
+    </form>
     </div>
   </div>
   <div class="col-md-4 col-sm-4" style="margin-bottom: 4%;border: 2px solid #ddd;border-radius:10px;font-weight: bold;padding-bottom: 15px;padding-left: 10px;padding-right: 10px;">
@@ -498,4 +521,21 @@ $("[id^=tradingview]").children().removeAttr("style").css({"width":"100%","heigh
 </script>
  {% endblock content %}
 </body>
+    <div class="col-sm-12">
+        <div class="col-sm-2">
+          <p>Amount</p>
+        </div>
+        <div class="col-sm-2">
+            <button class="btn btn-dark btn-sm" id="minus-btn0" style="padding-bottom: 20px;background:#fff;"><i class="fa fa-minus"></i></button>
+        </div>
+        <div class="col-sm-4">
+        <input type="number" id="qty_input0" class="form-control form-control-sm" value="1" min="1">
+        </div>
+        <div class="col-sm-2">
+            <button class="btn btn-dark btn-sm" id="plus-btn0" style="padding-bottom: 20px;margin-left: -30px;background:#fff;"><i class="fa fa-plus"></i></button>
+        </div>
+        <div class="col-sm-2">
+          <p>BHV</p>
+        </div>
+      </div>
 </html>

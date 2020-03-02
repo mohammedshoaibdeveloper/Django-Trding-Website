@@ -1,14 +1,17 @@
 from django.shortcuts import render, HttpResponse, redirect
-from trading .models import User_Signup , Verification
+from django.contrib import messages
+from trading .models import User_Signup , Verification ,statuses ,transictions
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.sessions.models import Session  
+from django.contrib import messages
+from django.http import HttpResponse
 import requests
 import json
-
+import stripe
 
 
 # Create your views here.
-
+stripe.api_key='sk_test_ORxhe7Gpc4OeUzSfyeqkGwES00S8EeM2v0'
 def index(request):
 
     if request.session.has_key('is_loged'):
@@ -36,7 +39,7 @@ def homee(request):
         
       
         # print(data)
-    return render(request,'home.html',{'data':data})   
+    return render(request,'home.html',{'data':data,'uid':request.session['id']})   
 
     # return render(request,'home.html')
 
@@ -50,10 +53,16 @@ def signup(request):
            pass1 = request.POST['password']
            checkuser_name = User_Signup.objects.filter(name=username)
            checkuser_email = User_Signup.objects.filter(email=email)
-           if checkuser_name:
-               return HttpResponse('Username Already Exist')
-           if checkuser_email:
-                return HttpResponse('Email ALReady Exist')
+           if checkuser_name or checkuser_email:
+                messages.info(request,"The user is already signup")
+                return redirect('/')
+            
+           if len(username) > 30 or len(username) < 3:
+                return HttpResponse("Username not grater than 30 and not less then 3")
+           if not username.isalnum():
+                return HttpResponse("Username should contain only letters and numbers")
+               
+           
 
          
            user_data = User_Signup(name=username,email=email,password = pass1)
@@ -86,7 +95,7 @@ def login(request):
                 response = requests.get(tickerURL)
                 data = response.json()
                 if request.session.has_key('is_loged'):
-                    return render(request,'home.html',{'data':data,'name':username,'uid':request.session['id']})
+                    return render(request,'home.html',{'data':data,'uid':request.session['id']})
                 
             else:
                 return redirect('/')    
@@ -111,19 +120,19 @@ def trading(request):
         
       
         # print(data)
-    return render(request,'trading.html',{'data':data})   
+    return render(request,'trading.html',{'data':data,'uid':request.session['id']})   
 
     #return render(requests,'trading.html')       
 def wallets(request):
-    return render(request,'wallets.html')
+    return render(request,'wallets.html',{'uid':request.session['id']})
 def balances(request):
-    return render(request,'balances.html')
+    return render(request,'balances.html',{'uid':request.session['id']})
 def profit(request):
-    return render(request,'profit.html')
+    return render(request,'profit.html',{'uid':request.session['id']})
 def pooling(request):
-    return render(request,'pooling.html')
+    return render(request,'pooling.html',{'uid':request.session['id']})
 def trade_history(request):
-    return render(request,'trade_history.html')
+    return render(request,'trade_history.html',{'uid':request.session['id']})
 def edit_profile(request):
      datalist=request.session['id'] 
    
@@ -135,13 +144,13 @@ def edit_profile(request):
          update.save()
      edit=User_Signup.objects.raw(f'select * FROM trading_User_Signup where name="{datalist}"')
         
-     return render(request,'edit_profile.html',{"data":edit})
-
+     return render(request,'edit_profile.html',{"data":edit,'uid':request.session['id']})
 def verification(request):
-    return render(request,'verification.html')
+    return render(request,'verification.html',{'uid':request.session['id']})
 def security(request):
-    return render(request,'security.html')
+    return render(request,'security.html',{'uid':request.session['id']})
 def account_verification(request):
+    datalist=request.session['id']
     if request.method == 'POST':
         name= request.POST['username']
         fullname = request.POST['fullname']
@@ -165,20 +174,30 @@ def account_verification(request):
         user_data =Verification(uname=name,fullname=fullname,middlename=middlename,lastname=lastname,address1=address1,
         address2=address2,zipcode=zipcode,city=city,region=region,country=country,dob=dob,passid=passid,
         date_of_issue=date_of_issue,expiringdate=expiringdatee,passportimg=passportimg,idbackimg=idbackimg,documentwithaddimg=documentwithaddimg)
-        checkuser_name = Verification.objects.filter(uname=name)
-        
-        if checkuser_name:
-               return HttpResponse('Username Already Exist')
+        checkuser_user = Verification.objects.filter(uname=name)
+        if checkuser_user:
+            messages.info(request,"The user is already verified")
+            return redirect('account_verification')
+   
         
         user_data.save()
         #return render(request,'home.html')
     
+    edit=Verification.objects.raw(f'select * FROM trading_Verification where uname="{datalist}"')
+    if not edit:
+        status = False
+    else:
+        status = True    
+    #edit = Verification.objects.get(uname=datalist)
+
+ 
 
 
-
-    return render(request,'account_verification.html',{'uid':request.session['id']})
+    
+    return render(request,'account_verification.html',{"data":edit,"status":status,"uid":request.session['id']})
 def logout(request):
     del request.session['is_loged']
+    del request.session['id']
    
     return redirect('/')
 
@@ -202,3 +221,27 @@ def logout(request):
 #         return render(request,'account_verification.html')
           
 
+
+def home(request):
+    return render(request,'home.html',{'uid':request.session['id']})
+
+def charge(request):
+    if request.method == 'POST':
+        x=int(request.POST['amount'])
+           
+        charge = stripe.Charge.create(
+        amount=x*100,
+        currency='usd',
+        description='A Django charge',
+        source=request.POST['stripeToken']
+        )
+#         tuser_id
+# tamout
+# token
+# status_id
+        # return render(request,'charge.html')
+        if(charge['paid']==True):
+            payment = transictions(tuser_id=request.session['id'],tprice=x,tamout=222,token=request.POST['stripeToken'],status_id_id=0)
+            payment.save()
+
+            return HttpResponse('source')

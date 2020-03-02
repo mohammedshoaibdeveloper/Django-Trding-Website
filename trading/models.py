@@ -36,4 +36,25 @@ class Verification(models.Model):
     
     def __str__(self):
         return self.uname
+
+ # Transion Status 
+class statuses(models.Model):
+    sid=models.AutoField(primary_key=True)
+    sname=models.CharField(max_length=100)
+    def __str__(self):
+        return self.sname
+  
+
+
+class transictions(models.Model):
+    tid=models.AutoField(primary_key=True)
+    tuser_id=models.CharField(max_length=200)
+    tprice=models.IntegerField(default=0)
+    tamout=models.IntegerField(default=0)
+    token=models.CharField(max_length=200)
+    status_id=models.ForeignKey(statuses, on_delete=models.CASCADE)
+    created_at=models.DateTimeField(auto_now_add=True)
     
+    updated_at=models.DateTimeField(auto_now_add=True)
+    def __str__(self):
+        return self.token
